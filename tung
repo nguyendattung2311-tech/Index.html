@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng 20/10 - Gia Hân 🌹</title>
+    <!-- Font chữ nghệ thuật cao cấp -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,400&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Tone màu tím hồng lãng mạn 20/10 */
+            background: radial-gradient(circle at center, #4a122e, #210717, #0d0109);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Khung thiệp kính mờ 3D lấp lánh */
+        .card-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 460px;
+            width: 88%;
+            perspective: 1000px;
+        }
+
+        .card-container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            padding: 40px 28px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                        inset 0 0 20px rgba(255, 105, 180, 0.2);
+            text-align: center;
+            position: relative;
+            animation: cardFloat 4s ease-in-out infinite alternate;
+        }
+
+        /* Viền sáng dạ quang chuyển màu */
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ffb6c1, #ffd700, #ff1493);
+            background-size: 300% 300%;
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+            filter: blur(12px);
+            animation: glowBorder 6s ease infinite;
+        }
+
+        .badge-2010 {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff1493, #ff4500);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            background: linear-gradient(to right, #ffd700, #ffb6c1, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.4));
+        }
+
+        .name-highlight {
+            font-family: 'Playfair Display', serif;
+            color: #ff3366;
+            font-size: 1.3em;
+            font-weight: 600;
+            font-style: italic;
+            text-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
+            display: inline-block;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #fce4ec;
+            font-weight: 400;
+        }
+
+        /* Nút bấm hiệu ứng nổi bật */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            border: none;
+            padding: 14px 28px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover, .btn:active {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(255, 20, 147, 0.8);
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+        }
+
+        /* Hoa trang trí góc thiệp */
+        .corner-flower {
+            position: absolute;
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
+            animation: spinSlow 12s linear infinite;
+        }
+        .top-left { top: -15px; left: -15px; }
+        .bottom-right { bottom: -15px; right: -15px; }
+
+        /* Khung trái tim đập nền */
+        .bg-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25rem;
+            color: rgba(255, 20, 147, 0.04);
+            z-index: 1;
+            pointer-events: none;
+            animation: heartBeat 2.5s infinite;
+        }
+
+        /* Phần tử rơi (Cánh hoa, Tim, Sao) */
+        .falling-item {
+            position: absolute;
+            top: -40px;
+            pointer-events: none;
+            user-select: none;
+            z-index: 2;
+            animation: fall linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(400deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+
+        @keyframes glowBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-heart">💖</div>
+
+    <div class="card-wrapper">
+        <div class="card-container">
+            <span class="corner-flower top-left">🌺</span>
+            <span class="corner-flower bottom-right">🌹</span>
+
+            <div class="badge-2010">HAPPY WOMEN'S DAY</div>
+            <h1>Chúc Mừng 20/10</h1>
+
+            <p>Gửi đến <span class="name-highlight">Gia Hân</span> rạng rỡ! 💐</p>
+            <p>Chúc bạn một ngày 20/10 thật ngọt ngào, tràn ngập sắc hoa và niềm vui. Mong bạn luôn duyên dáng, tươi trẻ và gặt hái thật nhiều thành công rực rỡ trên mọi hành trình nhé!</p>
+
+            <div class="btn-group">
+                <button class="btn" onclick="triggerFireworks()">
+                    <span>Bắn Pháo Hoa Mừng 20/10</span> 🎉
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hiệu ứng pháo hoa rực rỡ khi bấm nút
+        function triggerFireworks() {
+            // Bắn pháo hoa 2 bên màn hình
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Pháo hoa dạng trái tim & hoa hồng
+            setTimeout(() => {
+                confetti({
+                    particleCount: 50,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff1493', '#ff69b4', '#ffd700']
+                });
+                confetti({
+                    particleCount: 50,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff1493', '#ff69b4', '#ffd700']
+                });
+            }, 200);
+        }
+
+        // Tạo cánh hoa hồng, trái tim và ánh sao rơi chuyển động liên tục
+        const items = ['🌹', '🌸', '💖', '✨', '🌷', '🌺', '💕', '⭐'];
+
+        function createFallingItem() {
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+            document.body.appendChild(item);
+
+            item.innerHTML = items[Math.floor(Math.random() * items.length)];
+
+            // Random kích thước và vị trí rơi
+            const size = Math.random() * 20 + 16;
+            item.style.fontSize = `${size}px`;
+            item.style.left = `${Math.random() * 100}vw`;
+
+            // Random thời gian rơi mượt mà
+            const duration = Math.random() * 4 + 3.5;
+            item.style.animationDuration = `${duration}s`;
+            item.style.opacity = Math.random() * 0.8 + 0.2;
+
+            setTimeout(() => {
+                item.remove();
+            }, duration * 1000);
+        }
+
+        // Phát ra cánh hoa rơi liên tục
+        setInterval(createFallingItem, 180);
+
+        // Tự động bắn nhẹ pháo hoa chào mừng khi vừa mở trang
+        window.onload = () => {
+            setTimeout(triggerFireworks, 500);
+        };
+    </script>
+</body>
+</html>
